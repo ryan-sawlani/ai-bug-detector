@@ -1,0 +1,9 @@
+:root {
+  --bg: #080a0f; --surface: #0e1118; --border: #1c2030; --border2: #252d40;
+  --text: #dde3ee; --muted: #4a5570; --indigo: #5a6fff;
+  --critical: #ff4757; --high: #ff7f50; --medium: #ffd32a; --low: #2ed573;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body, #root { height: 100%; background: var(--bg); color: var(--text); font-family: Inter, sans-serif; -webkit-font-smoothing: antialiased; }
+::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-track { background: transparent; } ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 10px; }
+@keyframes spin { to { transform: rotate(360deg); } }

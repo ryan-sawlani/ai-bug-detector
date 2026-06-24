@@ -10,5 +10,12 @@ def analyze():
     language = (data or {}).get("language", "auto")
     if not code:
         return jsonify({"error": "No code provided"}), 400
-    result, status = analyze_code(code, language)
-    return jsonify(result), status
+    try:
+        result, status = analyze_code(code, language)
+        return jsonify(result), status
+        print("yaha_agaye")
+    except Exception as e:
+        print(f"ERROR: {e}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({"error": str(e)}), 500

@@ -1,27 +1,10 @@
 import React, { useRef, useEffect } from "react";
 const LANGS = ["auto","python","javascript","typescript","java","c++","c","go","rust","php","ruby","kotlin"];
-const SAMPLE = `function fetchUserData(userId) {
-  var users = fetchUsers();
-  for (var i = 0; i <= users.length; i++) {
-    if (users[i].id == userId) {
-      console.log("Found: " + users[i].name);
-      return users[i].name;
-    }
-  }
-}
-function runQuery(input) {
-  db.execute("SELECT * FROM users WHERE name = '" + input + "'");
-}
-function loadContent(data) {
-  document.getElementById("output").innerHTML = data;
-  eval(data);
-}
-// TODO: add validation
-var result = fetchUserData(null);
-console.log(result.toUpperCase());`;
+const SAMPLE = "";
 
 export default function CodeEditor({ code, setCode, language, setLanguage, onAnalyze, loading }) {
   const taRef = useRef(null);
+  const lineRef = useRef(null);
   useEffect(() => { if (!code) setCode(SAMPLE); }, []);
   const onKeyDown = (e) => {
     if (e.key === "Tab") {
@@ -44,12 +27,14 @@ export default function CodeEditor({ code, setCode, language, setLanguage, onAna
         <span style={{fontSize:11,color:"#2a3348",fontFamily:"JetBrains Mono,monospace"}}>{lines.length} lines</span>
       </div>
       <div style={{display:"flex",flex:1,overflow:"hidden"}}>
-        <div style={{padding:"16px 0",minWidth:44,textAlign:"right",background:"#080a0f",borderRight:"1px solid #1a1e2a",userSelect:"none",overflowY:"hidden",flexShrink:0}}>
+        <div ref={lineRef} style={{padding:"16px 0",minWidth:44,textAlign:"right",background:"#080a0f",borderRight:"1px solid #1a1e2a",userSelect:"none",overflowY:"hidden",flexShrink:0,pointerEvents:"none"}}>
           {lines.map((_,i)=><div key={i} style={{padding:"0 10px 0 6px",fontSize:12,lineHeight:"22.1px",color:"#2a3348",fontFamily:"JetBrains Mono,monospace"}}>{i+1}</div>)}
         </div>
         <textarea ref={taRef} style={{flex:1,background:"#080a0f",color:"#c9d3e8",fontFamily:"JetBrains Mono,monospace",fontSize:13,lineHeight:"22.1px",padding:"16px 20px",border:"none",outline:"none",resize:"none",overflowY:"auto"}}
           value={code} onChange={e=>setCode(e.target.value)} onKeyDown={onKeyDown}
+          onScroll={e => { if(lineRef.current) lineRef.current.scrollTop = e.target.scrollTop; }}
           placeholder="// Paste your code here..." spellCheck={false} autoComplete="off"/>
+
       </div>
       <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"10px 16px",background:"#0c0e15",borderTop:"1px solid #1c2030",flexShrink:0,gap:10}}>
         <div style={{display:"flex",alignItems:"center",gap:8}}>

@@ -138,6 +138,46 @@ RULES = [
         "description": "Functions without type hints are harder to understand and maintain.",
         "fix": "Add type hints.\nExample: def add(a: int, b: int) -> int:",
     },
+    {
+        "pattern": r"new\s+\w+\s*[\(\[](?!.*delete)",
+        "severity": "high",
+        "category": "Memory Leak",
+        "title": "Memory allocated with new but never deleted",
+        "description": "In C++, memory allocated with new must be manually freed with delete. Forgetting to delete causes memory leaks.",
+        "fix": "Always pair new with delete.\nExample: int* p = new int(5); delete p;",
+    },
+    {
+        "pattern": r"if\s*\(\s*\w+\s*=\s*[^=]",
+        "severity": "high",
+        "category": "Logic Error",
+        "title": "Assignment inside if condition",
+        "description": "Using = instead of == inside an if condition assigns a value instead of comparing. This is almost always a bug.",
+        "fix": "Use == for comparison.\nExample: if (isAdmin == 1) instead of if (isAdmin = 1)",
+    },
+    {
+        "pattern": r"catch\s*\(\s*\.\.\.\s*\)\s*\{?\s*\}?",
+        "severity": "medium",
+        "category": "Error Handling",
+        "title": "Empty catch(...) block",
+        "description": "Catching all exceptions with ... and doing nothing silently swallows all errors making debugging impossible.",
+        "fix": "Always handle or log the exception inside catch block.",
+    },
+    {
+        "pattern": r"\*\s*\w+\s*(?![\w\s]*=)",
+        "severity": "high",
+        "category": "Memory Safety",
+        "title": "Pointer dereference — possible null or dangling pointer",
+        "description": "Dereferencing a pointer without null check can cause segmentation fault if pointer is null or uninitialized.",
+        "fix": "Always check pointer before dereferencing.\nExample: if (data != nullptr) { cout << *data; }",
+    },
+    {
+        "pattern": r"\w+\s*\[\s*\d+\s*\]",
+        "severity": "high",
+        "category": "Logic Error",
+        "title": "Possible array index out of bounds",
+        "description": "Accessing array with hardcoded index may exceed array size and cause undefined behavior or segfault.",
+        "fix": "Always verify index is within bounds before accessing.\nExample: if (index < size) { arr[index]; }",
+    },
 ]
 
 
